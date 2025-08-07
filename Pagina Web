@@ -1,21 +1,24 @@
-import com.amazonaws.services.lambda.runtime.RequestHandler;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class LoginHandler implements RequestHandler<Map<String, Object>, Map<String, Object>> {
+
+@WebServlet("/")
+public class HomePageServlet extends HttpServlet {
     @Override
-    public Map<String, Object> handleRequest(Map<String, Object> input, Context context) {
-        String username = (String) input.get("username");
-        String password = (String) input.get("password");
-
-        Map<String, Object> response = new HashMap<>();
-        if ("admin".equals(username) && "1234".equals(password)) {
-            response.put("success", true);
-            response.put("message", "Login realizado com sucesso!");
-        } else {
-            response.put("success", false);
-            response.put("message", "Usuário ou senha inválidos.");
-        }
-        return response;
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        resp.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = resp.getWriter();
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head><title>Página Java no Vercel</title></head>");
+        out.println("<body>");
+        out.println("<h1>Bem-vindo à sua página Java rodando no Vercel!</h1>");
+        out.println("</body>");
+        out.println("</html>");
     }
 }
